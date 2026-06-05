@@ -1,0 +1,11 @@
+langgraph>=0.2.0
+langchain>=0.2.0
+langchain-groq
+langfuse
+qdrant-client
+sentence-transformers
+fastapi
+uvicorn
+pdfplumber
+python-docx
+python-dotenv

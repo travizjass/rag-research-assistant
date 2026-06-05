@@ -1,0 +1,12 @@
+venv/
+sample_documents/
+__pycache__
+__init__.py
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+*.db

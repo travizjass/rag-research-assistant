@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAG Research Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>🔍 Multi-Agent RAG Research Assistant</h1>
+      <p class="subtitle">Watch each agent think — analyze → retrieve → grade → generate → verify</p>
+    </header>
+
+    <!-- Query input -->
+    <section class="ask-box">
+      <textarea id="query" rows="2" placeholder="Ask a question about your ingested documents…"></textarea>
+      <div class="controls">
+        <label class="topk">
+          top_k
+          <input id="topk" type="number" min="1" max="20" value="5" />
+        </label>
+        <button id="ask-btn">Ask</button>
+      </div>
+      <div class="examples">
+        <span>Try:</span>
+        <button class="chip" data-q="What is retrieval-augmented generation and why does it reduce hallucination?">What is RAG?</button>
+        <button class="chip" data-q="How does self-attention work in a transformer?">Self-attention?</button>
+        <button class="chip" data-q="What distance metric and ANN algorithm does Qdrant use?">Qdrant ANN?</button>
+      </div>
+    </section>
+
+    <!-- Final answer (hidden until done) -->
+    <section id="answer-panel" class="answer-panel hidden">
+      <div class="answer-head">
+        <h2>Answer</h2>
+        <div id="badges" class="badges"></div>
+      </div>
+      <div id="answer-text" class="answer-text"></div>
+      <div id="answer-sources" class="answer-sources"></div>
+    </section>
+
+    <!-- Agent thinking timeline -->
+    <section class="timeline-wrap">
+      <h2 class="timeline-title">Agent Thinking</h2>
+      <div id="timeline" class="timeline">
+        <p class="placeholder">Ask a question to watch the agents work step by step.</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
