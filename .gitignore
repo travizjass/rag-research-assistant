@@ -1,12 +1,10 @@
 venv/
-sample_documents/
 __pycache__
-__init__.py
-.env
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.env
 *.log
 *.sqlite3
 *.db

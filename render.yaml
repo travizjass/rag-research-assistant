@@ -1,0 +1,42 @@
+# Render Blueprint — deploys the full RAG app (FastAPI UI + LangGraph pipeline
+# + embedded Qdrant) as ONE Docker web service. See DEPLOY.md for the walkthrough.
+#
+# In the Render dashboard: New + -> Blueprint -> pick this repo. Render reads
+# this file, creates the service, and asks you for the secret values below.
+services:
+  - type: web
+    name: rag-research-assistant
+    runtime: docker
+    plan: free                  # see the `disk:` note at the bottom for persistence
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: GROQ_API_KEY        # REQUIRED — set this secret in the dashboard
+        sync: false
+      - key: LLM_MODEL
+        value: llama-3.3-70b-versatile
+      - key: COLLECTION_NAME
+        value: research_docs
+      - key: QDRANT_HOST
+        value: localhost
+      - key: QDRANT_PORT
+        value: "6333"
+      - key: QDRANT_STORAGE_PATH
+        value: /data/qdrant
+      # ---- Optional: LangFuse observability (uncomment + set in dashboard) ----
+      # - key: LANGFUSE_PUBLIC_KEY
+      #   sync: false
+      # - key: LANGFUSE_SECRET_KEY
+      #   sync: false
+      # - key: LANGFUSE_HOST
+      #   value: https://cloud.langfuse.com
+
+    # ---- Optional: persist the vector store across restarts/redeploys ----
+    # The free plan has NO persistent disk, so on free the sample docs are
+    # re-ingested on every cold start (fine — it's quick). To keep data, switch
+    # `plan` above to a paid tier (e.g. starter) and uncomment this block:
+    # disk:
+    #   name: qdrant-data
+    #   mountPath: /data
+    #   sizeGB: 1

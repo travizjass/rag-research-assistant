@@ -1,0 +1,44 @@
+Introduction to Retrieval-Augmented Generation (RAG)
+
+Overview
+Retrieval-Augmented Generation, commonly abbreviated as RAG, is a technique that combines a large
+language model (LLM) with an external knowledge source. Instead of relying only on the parameters
+learned during training, a RAG system retrieves relevant documents at query time and supplies them
+to the language model as additional context. This lets the model produce answers that are grounded
+in up-to-date, domain-specific information that it never saw during training.
+
+Why RAG Matters
+Standalone language models suffer from two well-known problems. First, their knowledge is frozen at
+the moment training ends, so they cannot answer questions about recent events. Second, they tend to
+"hallucinate" - confidently generating plausible but factually incorrect statements. RAG addresses
+both issues. By grounding the model in retrieved evidence, RAG reduces hallucination and allows the
+knowledge base to be updated simply by adding new documents, with no expensive retraining required.
+
+The Core Pipeline
+A typical RAG pipeline has three stages. In the indexing stage, source documents are split into
+smaller chunks, converted into numerical vectors called embeddings, and stored in a vector database.
+In the retrieval stage, the user's question is embedded with the same model and the database returns
+the chunks whose vectors are most similar to the question. In the generation stage, the retrieved
+chunks are inserted into the prompt and the language model writes an answer that cites them.
+
+Advanced RAG Patterns
+Production systems often add extra steps to improve quality. A relevance grader can inspect each
+retrieved chunk and discard any that are off-topic before generation begins. A hallucination checker
+can verify, after generation, that every claim in the answer is supported by the retrieved context;
+if not, the system can regenerate the answer. Query rewriting, where the original question is
+reformulated into a cleaner search query, frequently boosts retrieval accuracy. These patterns can be
+orchestrated as a multi-agent graph in which each step is a dedicated node connected by conditional
+edges and retry loops.
+
+Evaluation
+RAG systems are evaluated on both retrieval quality and answer quality. Retrieval is measured with
+metrics such as recall@k and mean reciprocal rank, which capture whether the right documents were
+fetched. Answer quality is measured with faithfulness (is the answer supported by the context?) and
+answer relevance (does the answer address the question?). Observability tools that trace latency,
+token usage, and the decisions of each agent are essential for diagnosing where a pipeline fails.
+
+Summary
+RAG marries retrieval with generation to deliver answers that are current, grounded, and verifiable.
+By chunking documents, embedding them into a vector store, retrieving the most similar chunks, and
+grading both the context and the final answer, a RAG assistant can reliably ground its responses in a
+trusted knowledge base instead of relying on the model's memory alone.
